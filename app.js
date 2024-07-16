@@ -1,42 +1,20 @@
-// import axios from 'axios';
+const superagent = require('superagent');
 
-// const http = axios.create({
-//   baseURL: 'https://example.com/api'
-// });
-
-// export function getUser(userId: string) {
-//   // An equivalent to `GET /users?id=12345`
-//   return http.get('/user', {
-//     params: {
-//       id: 12345
-//     }
-//   });
-// }
-
-// require("./express");
-
-// app.get(/api/users, (req, res) => {
-//   // Handle GET request for fetching users
-//   });
-//   app.post(/api/users, (req, res) => {
-//   // Handle POST request for creating a new user
-//   });
-
-// const exp = require("./express.js");
-// const os = require("os");
-// const { EventEmitter } = require("stream");
-// //Get current Operating System identifying platform 
-// console.log(os.platform());
-
-const EventEmitter = require('events');
-class MyEmitter extends EventEmitter {}
-const myEmitter = new MyEmitter();
-// const temp = new Event( );
-
-module.exports = MyEmitter;
+superagent
+  .post('http://api.fda.gov/drug')
+  .send({ search : 'cetirizine', Limit : '1', sort: 'receivedate' }) // sends a JSON post body
+  // .set('X-API-Key', 'foobar')
+  .set('accept', 'json')
+  .end((err, res) => {
+    // Calling the end function will send the request
+  });
 
 
-setTimeout(() => {
-  myEmitter.emit(new Event, 'Hello from eventTrigger.js!');
-}, 2000);
-
+(async () => {
+  try {
+    const res = await superagent.post('http://api.fda.gov/drug/event.json?search=cetrizine');
+    console.log(res);
+  } catch (err) {
+    console.error(err);
+  }
+})();
